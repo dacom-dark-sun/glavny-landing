@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="ru" class="present">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="ГЛАВНЫЙ — платформа управления качеством космического производства. Защита решения кейса «Интеллектуальный контроль качества деталей», КосмоХакатон 2026." />
+<title>ГЛАВНЫЙ — платформа управления качеством космического производства</title>
+<link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="./landing.css?v=41" />
+</head>
+<body>
+
+<!-- Общие рисунки: деталь (фланец со сварным швом, вид сверху) и градиенты. Цвет шва — currentColor. -->
+<svg class="defs" aria-hidden="true">
+  <defs>
+    <radialGradient id="gMetal" cx="38%" cy="32%" r="80%"><stop offset="0" stop-color="#5b6b86" /><stop offset="0.45" stop-color="#232c3f" /><stop offset="1" stop-color="#0a0e18" /></radialGradient>
+    <radialGradient id="gHub" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#8896ad" /><stop offset="0.6" stop-color="#333f56" /><stop offset="1" stop-color="#121829" /></radialGradient>
+    <radialGradient id="gSpark"><stop offset="0" stop-color="#fff" /><stop offset="0.25" stop-color="#bfe6ff" stop-opacity="0.9" /><stop offset="1" stop-color="#22d3ee" stop-opacity="0" /></radialGradient>
+    <linearGradient id="gSweep" x1="0" x2="1"><stop offset="0" stop-color="#fbbf24" stop-opacity="0" /><stop offset="0.5" stop-color="#fbbf24" stop-opacity="0.22" /><stop offset="1" stop-color="#fbbf24" stop-opacity="0" /></linearGradient>
+    <symbol id="fl" viewBox="-50 -50 100 100" overflow="visible">
+      <circle r="44" fill="url(#gMetal)" stroke="rgba(148,197,255,0.5)" stroke-width="1.4" />
+      <g fill="#04060b" stroke="rgba(255,255,255,0.2)" stroke-width="0.8">
+        <circle cx="34" cy="0" r="4.2" /><circle cx="24.04" cy="24.04" r="4.2" /><circle cx="0" cy="34" r="4.2" /><circle cx="-24.04" cy="24.04" r="4.2" />
+        <circle cx="-34" cy="0" r="4.2" /><circle cx="-24.04" cy="-24.04" r="4.2" /><circle cx="0" cy="-34" r="4.2" /><circle cx="24.04" cy="-24.04" r="4.2" />
+      </g>
+      <circle r="24" fill="url(#gHub)" stroke="rgba(255,255,255,0.22)" stroke-width="0.8" />
+      <circle r="19" fill="none" stroke="currentColor" stroke-width="7" opacity="0.22" />
+      <circle r="19" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="2.4 1.5" />
+      <circle r="12.5" fill="#03050a" stroke="rgba(255,255,255,0.28)" stroke-width="0.8" />
+    </symbol>
+  </defs>
+</svg>
+
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<header class="bar">
+  <button class="brand" id="home" title="В начало">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#0f1729" stroke="rgba(125,211,252,.45)" /><path d="M11 24V9h11" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="square" /><circle cx="22" cy="21.5" r="2.4" fill="#fb7185" /></svg>
+    <span>ГЛАВНЫЙ</span>
+  </button>
+  <div class="meta"><button class="btn sm primary play noexp" data-act="present" title="Показ во весь экран · выход — Esc">▶ Презентация</button><button class="btn sm stop noexp" data-act="leave" title="Выйти из показа">Esc · выйти</button><span id="clock" title="Время выступления · T"></span><span id="counter"></span></div>
+</header>
+
+<main id="deck">
+
+  <!-- 1 · Титул -->
+  <section class="slide" id="title">
+    <div class="stage">
+      <div class="blob" style="left:-160px;top:40px;width:540px;height:540px;background:rgba(34,211,238,.10)"></div>
+      <div class="blob" style="right:-160px;top:160px;width:480px;height:480px;background:rgba(167,139,250,.10)"></div>
+      <svg class="art" viewBox="0 0 1600 900" data-build="conveyor" data-y="745" data-yd="848" data-yu="640" data-mode="B" data-mini="1"></svg>
+      <div class="abs cap eyebrow">КосмоХакатон 2026 · кейс «Интеллектуальный контроль качества деталей»</div>
+      <h1 id="fith1">ГЛАВНЫЙ</h1>
+      <img class="abs logo float" src="./kb-poehali.png" alt="КБ «Поехали»" width="320" height="320" />
+      <div class="abs sub" id="fitsub">платформа управления качеством космического производства</div>
+      <div class="abs korolev">В честь Главного конструктора — Сергея Павловича Королёва</div>
+    </div>
+  </section>
+
+  <!-- Что в космосе главное: цепочка к управлению процессом — мост к архитектуре -->
+  <section class="slide" id="goal" style="--c:var(--sky)">
+    <div class="stage">
+      <h2 class="h">Что в космосе <span class="c-sky">ГЛАВНОЕ</span>?</h2>
+      <div class="abs pairs stagger">
+        <div class="glass pair" style="--i:0"><b>01</b><q>Раннее обнаружение брака</q><p>Собирает данные контроля на каждой точке маршрута и не пропускает изделие дальше без решения</p></div>
+        <em style="--i:1">→</em>
+        <div class="glass pair" style="--i:2"><b>02</b><q>Накопление истории</q><p>Накапливает данные об изделии и делает их основой решений</p></div>
+        <em style="--i:3">→</em>
+        <div class="glass pair" style="--i:4"><b>03</b><q>Влияние на процесс</q><p>Корректирует производственный процесс, пока брак не повторился</p></div>
+      </div>
+      <div class="abs main stagger"><div style="--i:6">Главное — <span class="c-sky">управление производством без брака</span></div></div>
+    </div>
+  </section>
+
+  <!-- Архитектурные решения платформы -->
+  <section class="slide" id="arch" style="--c:var(--sky)">
+    <div class="stage">
+      <div class="journey">Платформа</div>
+      <h2 class="h">12 архитектурных решений <span class="c-sky">роста сложности</span></h2>
+      <div class="abs alist">
+        <div class="stagger">
+          <div class="ar " style="--i:0"><i>01</i><div><b>Чистая гексагональная архитектура бэкенда</b><span>Три слоя: домен → приложение → инфраструктура. Порты объявляет приложение, адаптеры за ними взаимозаменяемы</span></div></div>
+          <div class="ar " style="--i:1"><i>02</i><div><b>Многослойный дизайн по возможностям фронтенда (FSD)</b><span>Возможность живёт в своём срезе и не задевает соседние. Одна и та же возможность показывается в разных виджетах и страницах</span></div></div>
+          <div class="ar " style="--i:2"><i>03</i><div><b>Конструктор рабочих столов</b><span>Декларативное описание: что, кому и как показать. Столы собираются из готовых виджетов, новая роль — без разработки</span></div></div>
+          <div class="ar " style="--i:3"><i>04</i><div><b>Неизменяемая история, детерминированное ядро</b><span>Журнал истории связан хеш-цепочками. Независимый верификатор истории отдельно от базы переигрывает её тем же кодом</span></div></div>
+          <div class="ar " style="--i:4"><i>05</i><div><b>Процесс в BPMN и встроенный редактор</b><span>Процесс рисуют прямо в системе: шаги, контрольные точки, кто заверяет. Схема сшита с исполнением, её видят все участники, изменение — новая версия</span></div></div>
+          <div class="ar " style="--i:5"><i>06</i><div><b>Фабрика документов · УНЭП · ГОСТ</b><span>39 документов процесса собираются сами. Усиленная неквалифицированная электронная подпись: ГОСТ Р 34.10-2012, хеш Стрибог-256. Бумага с QR — если нужна</span></div></div>
+        </div>
+        <div class="stagger">
+          <div class="ar " style="--i:0"><i>07</i><div><b>Токен: доступ и подпись</b><span>Один носитель хранит ключ допуска к посту и ключ подписи: вставил токен, ввёл PIN — работаешь и подписываешь</span></div></div>
+          <div class="ar " style="--i:1"><i>08</i><div><b>Доступ по атрибутам (ABAC)</b><span>Кто — что — над чем — где, до отдельного действия. Число ролей не важно: они собираются конфигурацией</span></div></div>
+          <div class="ar " style="--i:2"><i>09</i><div><b>Паспорт изделия</b><span>Полная подписанная история детали, узла и партии — от материала до выпуска</span></div></div>
+          <div class="ar " style="--i:3"><i>10</i><div><b>Сценарное моделирование</b><span>Проигрываем процесс вперёд и назад тем же кодом: разбор узких мест и обучение людей</span></div></div>
+          <div class="ar " style="--i:4"><i>11</i><div><b>Фабрика предложений</b><span>Генераторы по данным предлагают улучшения технологу и руководителю: например, остановить источник по току — до прожога</span></div></div>
+          <div class="ar " style="--i:5"><i>12</i><div><b>Федерация предприятий</b><span>У каждого предприятия своя копия ГЛАВНОГО. Между ними — общая стандартизированная шина данных: подписанные выписки паспорта изделия</span></div></div>
+        </div>
+      </div>
+      <div class="abs any stagger"><span style="--i:7"><b>Работает на любом предприятии:</b> полностью цифровом или совсем не цифровом — достаточно одного рабочего места</span></div>
+    </div>
+  </section>
+
+  <!-- BPMN:BEGIN · собрано frontend/scripts/landing-bpmn.py из normative/process/flange-process.bpmn -->
+  <section class="slide" id="bpmn" style="--c:var(--cyan);--s0:0.1466;--ox:50.9px;--oy:267.1px;--s1:1.2;--zx:-4791.2px;--zy:-762.0px;--s2:1.03;--nx:-63.9px;--ny:-1934.2px">
+    <div class="stage">
+      <div class="journey">Основа платформы</div>
+      <h2 class="h">Весь процесс — <span class="c-cyan">одна схема BPMN</span></h2>
+      <svg class="art" viewBox="0 0 1600 900" aria-hidden="true">
+        <g class="cam">
+          <rect class="ln" x="169" y="20" width="9919" height="440"/>
+          <rect class="ln" x="169" y="460" width="9919" height="400"/>
+          <rect class="ln" x="169" y="860" width="9919" height="400"/>
+          <rect class="ln" x="169" y="1260" width="9919" height="400"/>
+          <rect class="ln" x="169" y="1660" width="9919" height="400"/>
+          <rect class="ln sub" x="130" y="2140" width="1404" height="500" rx="30"/>
+          <rect class="hl" x="3303" y="874" width="2150" height="372" rx="40"/>
+          <path class="call" style="--d:1.05s" d="M1209 290 C1209 1760 2444 2390 1544 2390"/>
+          <path class="call" style="--d:1.44s" d="M2847 690 C2847 1880 2444 2390 1544 2390"/>
+          <path class="call h" style="--d:1.97s" d="M5031 1090 C5031 2000 2444 2390 1544 2390"/>
+          <path class="call" style="--d:2.71s" d="M8125 1490 C8125 2120 2444 2390 1544 2390"/>
+          <path class="call" style="--d:2.85s" d="M8671 1490 C8671 2120 2444 2390 1544 2390"/>
+          <path class="call" style="--d:3.02s" d="M9399 1890 C9399 2240 2444 2390 1544 2390"/>
+          <path class="e" pathLength="1" style="--d:0.25s" d="M317 130 L407 130"/>
+          <path class="e" pathLength="1" style="--d:0.29s" d="M499 130 L613 130"/>
+          <path class="e" pathLength="1" style="--d:0.34s" d="M713 130 L730 130"/>
+          <path class="e" pathLength="1" style="--d:0.38s" d="M895 130 L977 130"/>
+          <path class="e" pathLength="1" style="--d:0.43s" d="M1077 130 L1186 130"/>
+          <path class="e" pathLength="1" style="--d:0.47s" d="M1232 130 L1276 130"/>
+          <path class="e" pathLength="1" style="--d:0.35s" d="M1209 107 L1209 68 L845 68 L845 78 L753 78 L753 107"/>
+          <path class="e" pathLength="1" style="--d:0.46s" d="M1209 153 L1209 210"/>
+          <path class="e" pathLength="1" style="--d:0.47s" d="M1259 250 L1368 250"/>
+          <path class="e" pathLength="1" style="--d:0.48s" d="M1391 227 L1391 182 L1299 182 L1299 153"/>
+          <path class="e" pathLength="1" style="--d:0.27s" d="M1391 273 L1391 448 L481 448 L481 160 L430 160 L430 153"/>
+          <path class="e" pathLength="1" style="--d:0.52s" d="M1441 130 L1550 130"/>
+          <path class="e" pathLength="1" style="--d:0.55s" d="M1596 130 L1705 130"/>
+          <path class="e" pathLength="1" style="--d:0.6s" d="M1805 130 L1919 130"/>
+          <path class="e" pathLength="1" style="--d:0.64s" d="M1955 130 L2119 130 L2119 478 L2027 478 L2027 507"/>
+          <path class="e" pathLength="1" style="--d:0.55s" d="M1596 130 L1648 130 L1648 250 L1705 250"/>
+          <path class="e" pathLength="1" style="--d:0.6s" d="M1805 250 L1919 250"/>
+          <path class="e" pathLength="1" style="--d:0.64s" d="M1955 250 L3757 250 L3757 907"/>
+          <path class="e" pathLength="1" style="--d:0.55s" d="M1596 130 L1648 130 L1648 370 L1705 370"/>
+          <path class="e" pathLength="1" style="--d:0.6s" d="M1805 370 L1919 370"/>
+          <path class="e" pathLength="1" style="--d:0.64s" d="M1955 370 L5941 370 L5941 1307"/>
+          <path class="e" pathLength="1" style="--d:0.69s" d="M2169 530 L2186 530"/>
+          <path class="e" pathLength="1" style="--d:0.74s" d="M2351 530 L2433 530"/>
+          <path class="e" pathLength="1" style="--d:0.78s" d="M2533 530 L2615 530"/>
+          <path class="e" pathLength="1" style="--d:0.82s" d="M2715 530 L2824 530"/>
+          <path class="e" pathLength="1" style="--d:0.86s" d="M2870 530 L2914 530"/>
+          <path class="e" pathLength="1" style="--d:0.7s" d="M2847 507 L2847 468 L2301 468 L2301 478 L2209 478 L2209 507"/>
+          <path class="e" pathLength="1" style="--d:0.85s" d="M2847 553 L2847 610"/>
+          <path class="e" pathLength="1" style="--d:0.87s" d="M2897 650 L3006 650"/>
+          <path class="e" pathLength="1" style="--d:0.66s" d="M3029 673 L3029 848 L2119 848 L2119 582 L2027 582 L2027 553"/>
+          <path class="e" pathLength="1" style="--d:0.88s" d="M3029 627 L3029 582 L2937 582 L2937 553"/>
+          <path class="e" pathLength="1" style="--d:0.9s" d="M3052 650 L3193 650"/>
+          <path class="e" pathLength="1" style="--d:0.91s" d="M3079 530 L3393 530 L3393 890"/>
+          <path class="e h" pathLength="1" style="--d:1.0s" d="M3443 930 L3557 930"/>
+          <path class="e h" pathLength="1" style="--d:1.03s" d="M3593 930 L3734 930"/>
+          <path class="e h" pathLength="1" style="--d:1.08s" d="M3780 930 L3824 930"/>
+          <path class="e h" pathLength="1" style="--d:1.13s" d="M3989 930 L4071 930"/>
+          <path class="e h" pathLength="1" style="--d:1.17s" d="M4171 930 L4188 930"/>
+          <path class="e h" pathLength="1" style="--d:1.1s" d="M4139 988 L4139 1248 L3939 1248 L3939 982 L3847 982 L3847 953"/>
+          <path class="e h" pathLength="1" style="--d:1.22s" d="M4353 930 L4462 930"/>
+          <path class="e h" pathLength="1" style="--d:1.26s" d="M4508 930 L4560 930 L4560 1050 L4617 1050"/>
+          <path class="e h" pathLength="1" style="--d:1.26s" d="M4508 930 L4734 930"/>
+          <path class="e h" pathLength="1" style="--d:1.31s" d="M4717 1050 L4780 1050 L4780 930 L4734 930"/>
+          <path class="e h" pathLength="1" style="--d:1.35s" d="M4899 930 L5008 930"/>
+          <path class="e h" pathLength="1" style="--d:1.39s" d="M5054 930 L5098 930"/>
+          <path class="e h" pathLength="1" style="--d:1.18s" d="M5031 907 L5031 868 L4303 868 L4303 878 L4211 878 L4211 907"/>
+          <path class="e h" pathLength="1" style="--d:1.38s" d="M5031 953 L5031 1010"/>
+          <path class="e h" pathLength="1" style="--d:1.39s" d="M5081 1050 L5190 1050"/>
+          <path class="e h" pathLength="1" style="--d:1.1s" d="M5213 1073 L5213 1242 L3939 1242 L3939 982 L3847 982 L3847 953"/>
+          <path class="e h" pathLength="1" style="--d:1.4s" d="M5213 1027 L5213 982 L5121 982 L5121 953"/>
+          <path class="e h" pathLength="1" style="--d:1.43s" d="M5236 1050 L5377 1050"/>
+          <path class="e" pathLength="1" style="--d:1.44s" d="M5263 930 L5577 930 L5577 1290"/>
+          <path class="e" pathLength="1" style="--d:1.52s" d="M5627 1330 L5741 1330"/>
+          <path class="e" pathLength="1" style="--d:1.56s" d="M5777 1330 L5918 1330"/>
+          <path class="e" pathLength="1" style="--d:1.61s" d="M5964 1330 L6008 1330"/>
+          <path class="e" pathLength="1" style="--d:1.66s" d="M6173 1330 L6190 1330"/>
+          <path class="e" pathLength="1" style="--d:1.7s" d="M6355 1330 L6437 1330"/>
+          <path class="e" pathLength="1" style="--d:1.74s" d="M6537 1330 L6646 1330"/>
+          <path class="e" pathLength="1" style="--d:1.78s" d="M6692 1330 L6801 1330"/>
+          <path class="e" pathLength="1" style="--d:1.78s" d="M6669 1353 L6669 1410"/>
+          <path class="e" pathLength="1" style="--d:1.67s" d="M6669 1490 L6669 1648 L6305 1648 L6305 1382 L6213 1382 L6213 1353"/>
+          <path class="e" pathLength="1" style="--d:1.83s" d="M6901 1330 L6983 1330"/>
+          <path class="e" pathLength="1" style="--d:1.88s" d="M7083 1330 L7165 1330"/>
+          <path class="e" pathLength="1" style="--d:1.92s" d="M7265 1330 L7347 1330"/>
+          <path class="e" pathLength="1" style="--d:1.96s" d="M7447 1330 L7556 1330"/>
+          <path class="e" pathLength="1" style="--d:2.0s" d="M7602 1330 L7646 1330"/>
+          <path class="e" pathLength="1" style="--d:1.89s" d="M7579 1353 L7579 1642 L7215 1642 L7215 1622 L7123 1622 L7123 1593"/>
+          <path class="e" pathLength="1" style="--d:1.62s" d="M7215 1610 L7215 1636 L6123 1636 L6123 1382 L6031 1382 L6031 1353"/>
+          <path class="e" pathLength="1" style="--d:2.05s" d="M7811 1330 L7893 1330"/>
+          <path class="e" pathLength="1" style="--d:2.1s" d="M7993 1330 L8102 1330"/>
+          <path class="e" pathLength="1" style="--d:2.13s" d="M8148 1330 L8192 1330"/>
+          <path class="e" pathLength="1" style="--d:2.02s" d="M8125 1307 L8125 1268 L7761 1268 L7761 1278 L7669 1278 L7669 1307"/>
+          <path class="e" pathLength="1" style="--d:2.13s" d="M8125 1353 L8125 1410"/>
+          <path class="e" pathLength="1" style="--d:2.14s" d="M8175 1450 L8284 1450"/>
+          <path class="e" pathLength="1" style="--d:1.89s" d="M8307 1473 L8307 1630 L7215 1630 L7215 1622 L7123 1622 L7123 1593"/>
+          <path class="e" pathLength="1" style="--d:2.15s" d="M8307 1427 L8307 1382 L8215 1382 L8215 1353"/>
+          <path class="e" pathLength="1" style="--d:2.18s" d="M8330 1450 L8403 1450 L8403 1570 L8415 1570"/>
+          <path class="e" pathLength="1" style="--d:2.18s" d="M8357 1330 L8439 1330"/>
+          <path class="e" pathLength="1" style="--d:2.23s" d="M8539 1330 L8648 1330"/>
+          <path class="e" pathLength="1" style="--d:2.15s" d="M8671 1307 L8671 1273 L8307 1273 L8307 1278 L8215 1278 L8215 1307"/>
+          <path class="e" pathLength="1" style="--d:2.26s" d="M8671 1353 L8671 1410"/>
+          <path class="e" pathLength="1" style="--d:2.26s" d="M8694 1330 L9035 1330 L9035 1678 L8943 1678 L8943 1707"/>
+          <path class="e" pathLength="1" style="--d:2.26s" d="M8671 1490 L8671 1547"/>
+          <path class="e" pathLength="1" style="--d:1.89s" d="M8671 1593 L8671 1648 L7215 1648 L7215 1622 L7123 1622 L7123 1593"/>
+          <path class="e" pathLength="1" style="--d:2.2s" d="M8648 1570 L8528 1570 L8528 1540 L8438 1540 L8438 1547"/>
+          <path class="e" pathLength="1" style="--d:2.36s" d="M9085 1730 L9167 1730"/>
+          <path class="e" pathLength="1" style="--d:2.4s" d="M9267 1730 L9376 1730"/>
+          <path class="e" pathLength="1" style="--d:2.44s" d="M9422 1730 L9466 1730"/>
+          <path class="e" pathLength="1" style="--d:2.32s" d="M9399 1707 L9399 1668 L9035 1668 L9035 1678 L8943 1678 L8943 1707"/>
+          <path class="e" pathLength="1" style="--d:2.43s" d="M9399 1753 L9399 1810"/>
+          <path class="e" pathLength="1" style="--d:2.45s" d="M9449 1850 L9558 1850"/>
+          <path class="e" pathLength="1" style="--d:1.89s" d="M9581 1873 L9581 2048 L7215 2048 L7215 1622 L7123 1622 L7123 1593"/>
+          <path class="e" pathLength="1" style="--d:2.46s" d="M9581 1827 L9581 1782 L9489 1782 L9489 1753"/>
+          <path class="e" pathLength="1" style="--d:2.48s" d="M9604 1850 L9745 1850"/>
+          <path class="e" pathLength="1" style="--d:2.49s" d="M9631 1730 L9745 1730"/>
+          <path class="e" pathLength="1" style="--d:2.53s" d="M9781 1730 L9927 1730"/>
+          <path class="e" pathLength="1" style="--d:0.22s" d="M218 2215 L300 2215"/>
+          <path class="e" pathLength="1" style="--d:0.27s" d="M400 2215 L470 2215"/>
+          <path class="e" pathLength="1" style="--d:0.31s" d="M570 2215 L647 2215"/>
+          <path class="e" pathLength="1" style="--d:0.34s" d="M693 2215 L1057 2215"/>
+          <path class="e" pathLength="1" style="--d:0.33s" d="M670 2238 L670 2335 L830 2335"/>
+          <path class="e" pathLength="1" style="--d:0.33s" d="M670 2238 L670 2455 L902 2455"/>
+          <path class="e" pathLength="1" style="--d:0.33s" d="M670 2238 L670 2575 L902 2575"/>
+          <path class="e" pathLength="1" style="--d:0.39s" d="M930 2335 L1057 2335"/>
+          <path class="e" pathLength="1" style="--d:0.43s" d="M1080 2312 L1080 2238"/>
+          <path class="e" pathLength="1" style="--d:0.43s" d="M1103 2335 L1412 2335"/>
+          <path class="e" pathLength="1" style="--d:0.47s" d="M1248 2215 L1412 2215"/>
+          <path class="e" pathLength="1" style="--d:0.39s" d="M938 2455 L1142 2455"/>
+          <path class="e" pathLength="1" style="--d:0.39s" d="M938 2575 L1142 2575"/>
+          <path class="e" pathLength="1" style="--d:0.28s" d="M453 130 L463 130"/>
+          <path class="e" pathLength="1" style="--d:0.36s" d="M776 130 L795 130"/>
+          <path class="e" pathLength="1" style="--d:0.49s" d="M1322 130 L1341 130"/>
+          <path class="e" pathLength="1" style="--d:0.66s" d="M2050 530 L2069 530"/>
+          <path class="e" pathLength="1" style="--d:0.71s" d="M2232 530 L2251 530"/>
+          <path class="e" pathLength="1" style="--d:0.88s" d="M2960 530 L2979 530"/>
+          <path class="e h" pathLength="1" style="--d:1.1s" d="M3870 930 L3889 930"/>
+          <path class="e h" pathLength="1" style="--d:1.19s" d="M4234 930 L4253 930"/>
+          <path class="e h" pathLength="1" style="--d:1.32s" d="M4780 930 L4799 930"/>
+          <path class="e h" pathLength="1" style="--d:1.41s" d="M5144 930 L5163 930"/>
+          <path class="e" pathLength="1" style="--d:1.63s" d="M6054 1330 L6073 1330"/>
+          <path class="e" pathLength="1" style="--d:1.67s" d="M6236 1330 L6255 1330"/>
+          <path class="e" pathLength="1" style="--d:1.89s" d="M7146 1570 L7165 1570"/>
+          <path class="e" pathLength="1" style="--d:2.02s" d="M7692 1330 L7711 1330"/>
+          <path class="e" pathLength="1" style="--d:2.21s" d="M8461 1570 L8471 1570"/>
+          <path class="e" pathLength="1" style="--d:2.15s" d="M8238 1330 L8257 1330"/>
+          <path class="e" pathLength="1" style="--d:2.33s" d="M8966 1730 L8985 1730"/>
+          <path class="e" pathLength="1" style="--d:2.46s" d="M9512 1730 L9531 1730"/>
+          <path class="e" pathLength="1" style="--d:0.43s" d="M1103 2215 L1212 2215"/>
+          <circle class="n ev " style="--d:0.21s" cx="200" cy="2215" r="18"/>
+          <text class="t g" x="200" y="2249">«Не годно»</text>
+          <circle class="n ev " style="--d:0.24s" cx="299" cy="130" r="18"/>
+          <rect class="n op" style="--d:0.24s" x="300" y="2175" width="100" height="80" rx="12"/>
+          <text class="t"><tspan x="350" y="2219">Изоляция</tspan></text>
+          <path class="n gw" style="--d:0.27s" d="M430 107 L453 130 L430 153 L407 130Z"/>
+          <circle class="n ev " style="--d:0.28s" cx="481" cy="130" r="18"/>
+          <rect class="n zt" style="--d:0.28s" x="470" y="2175" width="100" height="80" rx="12"/>
+          <text class="t"><tspan x="520" y="2212">Решение по</tspan><tspan x="520" y="2226">изделию</tspan></text>
+          <rect class="n op" style="--d:0.32s" x="613" y="90" width="100" height="80" rx="12"/>
+          <path class="n gw" style="--d:0.32s" d="M670 2192 L693 2215 L670 2238 L647 2215Z"/>
+          <text class="t g" x="670" y="2181" style="text-anchor:middle">Вариант решения</text>
+          <path class="n gw" style="--d:0.34s" d="M753 107 L776 130 L753 153 L730 130Z"/>
+          <rect class="n kt" style="--d:0.36s" x="795" y="90" width="100" height="80" rx="12"/>
+          <rect class="n zt" style="--d:0.37s" x="830" y="2295" width="100" height="80" rx="12"/>
+          <text class="t"><tspan x="880" y="2332">Разрешение на</tspan><tspan x="880" y="2346">отклонение</tspan></text>
+          <circle class="n ev " style="--d:0.39s" cx="920" cy="2455" r="18"/>
+          <text class="t g" x="920" y="2489">В 1С: перевод в брак (списание)</text>
+          <circle class="n ev " style="--d:0.39s" cx="920" cy="2575" r="18"/>
+          <text class="t g" x="920" y="2609">В 1С: возврат поставщику</text>
+          <rect class="n zt" style="--d:0.4s" x="977" y="90" width="100" height="80" rx="12"/>
+          <path class="n gw" style="--d:0.42s" d="M1080 2312 L1103 2335 L1080 2358 L1057 2335Z"/>
+          <text class="t g" x="1068" y="2316" style="text-anchor:end">Ремонт или как есть?</text>
+          <path class="n gw" style="--d:0.42s" d="M1080 2192 L1103 2215 L1080 2238 L1057 2215Z"/>
+          <circle class="n ev end" style="--d:0.44s" cx="1160" cy="2455" r="18"/>
+          <text class="t g" x="1160" y="2489">Итог: списано</text>
+          <circle class="n ev end" style="--d:0.44s" cx="1160" cy="2575" r="18"/>
+          <text class="t g" x="1160" y="2609">Итог: возвращено поставщику</text>
+          <rect class="n nc" style="--d:0.45s" x="1159" y="210" width="100" height="80" rx="12"/>
+          <path class="plus" style="--d:0.45s" d="M1201 270 h16 v16 h-16 Z M1209 273 v10 M1204 278 h10"/>
+          <path class="n gw" style="--d:0.45s" d="M1209 107 L1232 130 L1209 153 L1186 130Z"/>
+          <circle class="n ev " style="--d:0.46s" cx="1230" cy="2215" r="18"/>
+          <text class="t g" x="1230" y="2249">В 1С: перевод в брак (переделка)</text>
+          <path class="n gw" style="--d:0.48s" d="M1299 107 L1322 130 L1299 153 L1276 130Z"/>
+          <rect class="n op" style="--d:0.49s" x="1341" y="90" width="100" height="80" rx="12"/>
+          <path class="n gw" style="--d:0.5s" d="M1391 227 L1414 250 L1391 273 L1368 250Z"/>
+          <circle class="n ev end" style="--d:0.51s" cx="1430" cy="2215" r="18"/>
+          <text class="t g" x="1430" y="2249">Итог: переделка или ремонт</text>
+          <circle class="n ev end" style="--d:0.51s" cx="1430" cy="2335" r="18"/>
+          <text class="t g" x="1430" y="2369">Итог: как есть</text>
+          <path class="n gw" style="--d:0.54s" d="M1573 107 L1596 130 L1573 153 L1550 130Z"/>
+          <rect class="n op" style="--d:0.58s" x="1705" y="90" width="100" height="80" rx="12"/>
+          <rect class="n op" style="--d:0.58s" x="1705" y="210" width="100" height="80" rx="12"/>
+          <rect class="n op" style="--d:0.58s" x="1705" y="330" width="100" height="80" rx="12"/>
+          <circle class="n ev " style="--d:0.63s" cx="1937" cy="130" r="18"/>
+          <circle class="n ev " style="--d:0.63s" cx="1937" cy="250" r="18"/>
+          <circle class="n ev " style="--d:0.63s" cx="1937" cy="370" r="18"/>
+          <path class="n gw" style="--d:0.65s" d="M2027 507 L2050 530 L2027 553 L2004 530Z"/>
+          <rect class="n op" style="--d:0.67s" x="2069" y="490" width="100" height="80" rx="12"/>
+          <path class="n gw" style="--d:0.7s" d="M2209 507 L2232 530 L2209 553 L2186 530Z"/>
+          <rect class="n kt" style="--d:0.71s" x="2251" y="490" width="100" height="80" rx="12"/>
+          <rect class="n kt" style="--d:0.76s" x="2433" y="490" width="100" height="80" rx="12"/>
+          <rect class="n zt" style="--d:0.8s" x="2615" y="490" width="100" height="80" rx="12"/>
+          <rect class="n nc" style="--d:0.84s" x="2797" y="610" width="100" height="80" rx="12"/>
+          <path class="plus" style="--d:0.84s" d="M2839 670 h16 v16 h-16 Z M2847 673 v10 M2842 678 h10"/>
+          <path class="n gw" style="--d:0.85s" d="M2847 507 L2870 530 L2847 553 L2824 530Z"/>
+          <path class="n gw" style="--d:0.87s" d="M2937 507 L2960 530 L2937 553 L2914 530Z"/>
+          <rect class="n op" style="--d:0.89s" x="2979" y="490" width="100" height="80" rx="12"/>
+          <path class="n gw" style="--d:0.89s" d="M3029 627 L3052 650 L3029 673 L3006 650Z"/>
+          <circle class="n ev end" style="--d:0.94s" cx="3211" cy="650" r="18"/>
+          <rect class="n zt" style="--d:0.97s" x="3343" y="890" width="100" height="80" rx="12"/>
+          <text class="t"><tspan x="3393" y="913">Приёмка</tspan><tspan x="3393" y="927">цехом:</tspan><tspan x="3393" y="941">осмотр,</tspan><tspan x="3393" y="955">подпись…</tspan></text>
+          <circle class="n ev " style="--d:1.03s" cx="3575" cy="930" r="18"/>
+          <text class="t g" x="3575" y="964">В 1С: перемещение МЦ → СЦ</text>
+          <path class="n gw" style="--d:1.07s" d="M3757 907 L3780 930 L3757 953 L3734 930Z"/>
+          <text class="t g" x="3745" y="911" style="text-anchor:end">Фланец + патрубок</text>
+          <path class="n gw" style="--d:1.09s" d="M3847 907 L3870 930 L3847 953 L3824 930Z"/>
+          <rect class="n op" style="--d:1.11s" x="3889" y="890" width="100" height="80" rx="12"/>
+          <text class="t"><tspan x="3939" y="927">Подготовка</tspan><tspan x="3939" y="941">кромок</tspan></text>
+          <rect class="n op" style="--d:1.15s" x="4071" y="890" width="100" height="80" rx="12"/>
+          <text class="t"><tspan x="4121" y="927">Сварка фланца</tspan><tspan x="4121" y="941">с патрубком</tspan></text>
+          <circle class="n ev " style="--d:1.16s" cx="4139" cy="970" r="18"/>
+          <text class="t g" x="4129" y="1004" style="text-anchor:end">Окно кромок 8 ч истекло</text>
+          <path class="n gw" style="--d:1.18s" d="M4211 907 L4234 930 L4211 953 L4188 930Z"/>
+          <rect class="n kt" style="--d:1.19s" x="4253" y="890" width="100" height="80" rx="12"/>
+          <text class="t"><tspan x="4303" y="913">КТ-3 Камера</tspan><tspan x="4303" y="927">на шов</tspan><tspan x="4303" y="941">(участки 40</tspan><tspan x="4303" y="955">мм)</tspan></text>
+          <path class="n gw" style="--d:1.24s" d="M4485 907 L4508 930 L4485 953 L4462 930Z"/>
+          <text class="t g" x="4473" y="911" style="text-anchor:end">РК по КД?</text>
+          <rect class="n kt" style="--d:1.28s" x="4617" y="1010" width="100" height="80" rx="12"/>
+          <text class="t"><tspan x="4667" y="1047">КТ-3 Рентген</tspan><tspan x="4667" y="1061">шва</tspan></text>
+          <path class="n gw" style="--d:1.31s" d="M4757 907 L4780 930 L4757 953 L4734 930Z"/>
+          <rect class="n zt" style="--d:1.33s" x="4799" y="890" width="100" height="80" rx="12"/>
+          <text class="t"><tspan x="4849" y="927">ЗТ-3 Приёмка</tspan><tspan x="4849" y="941">ОТК</tspan></text>
+          <rect class="inc" x="4790" y="881" width="118" height="98" rx="20"/>
+          <rect class="n nc" style="--d:1.37s" x="4981" y="1010" width="100" height="80" rx="12"/>
+          <text class="t"><tspan x="5031" y="1054">Брак (Н)</tspan></text>
+          <path class="plus" style="--d:1.37s" d="M5023 1070 h16 v16 h-16 Z M5031 1073 v10 M5026 1078 h10"/>
+          <path class="n gw" style="--d:1.38s" d="M5031 907 L5054 930 L5031 953 L5008 930Z"/>
+          <text class="t g" x="5019" y="911" style="text-anchor:end">Годно?</text>
+          <path class="n gw" style="--d:1.4s" d="M5121 907 L5144 930 L5121 953 L5098 930Z"/>
+          <rect class="n op" style="--d:1.41s" x="5163" y="890" width="100" height="80" rx="12"/>
+          <text class="t"><tspan x="5213" y="927">Отправка в</tspan><tspan x="5213" y="941">сборочный цех</tspan></text>
+          <path class="n gw" style="--d:1.42s" d="M5213 1027 L5236 1050 L5213 1073 L5190 1050Z"/>
+          <text class="t g" x="5201" y="1031" style="text-anchor:end">Итог Н</text>
+          <circle class="n ev end" style="--d:1.46s" cx="5395" cy="1050" r="18"/>
+          <text class="t g" x="5395" y="1084">Списано</text>
+          <rect class="n zt" style="--d:1.5s" x="5527" y="1290" width="100" height="80" rx="12"/>
+          <circle class="n ev " style="--d:1.55s" cx="5759" cy="1330" r="18"/>
+          <path class="n gw" style="--d:1.59s" d="M5941 1307 L5964 1330 L5941 1353 L5918 1330Z"/>
+          <path class="n gw" style="--d:1.62s" d="M6031 1307 L6054 1330 L6031 1353 L6008 1330Z"/>
+          <rect class="n op" style="--d:1.63s" x="6073" y="1290" width="100" height="80" rx="12"/>
+          <path class="n gw" style="--d:1.66s" d="M6213 1307 L6236 1330 L6213 1353 L6190 1330Z"/>
+          <rect class="n kt" style="--d:1.68s" x="6255" y="1290" width="100" height="80" rx="12"/>
+          <rect class="n zt" style="--d:1.72s" x="6437" y="1290" width="100" height="80" rx="12"/>
+          <rect class="n op" style="--d:1.76s" x="6619" y="1410" width="100" height="80" rx="12"/>
+          <path class="n gw" style="--d:1.77s" d="M6669 1307 L6692 1330 L6669 1353 L6646 1330Z"/>
+          <rect class="n op" style="--d:1.81s" x="6801" y="1290" width="100" height="80" rx="12"/>
+          <rect class="n op" style="--d:1.85s" x="6983" y="1290" width="100" height="80" rx="12"/>
+          <path class="n gw" style="--d:1.88s" d="M7123 1547 L7146 1570 L7123 1593 L7100 1570Z"/>
+          <rect class="n op" style="--d:1.9s" x="7165" y="1290" width="100" height="80" rx="12"/>
+          <rect class="n op" style="--d:1.9s" x="7165" y="1530" width="100" height="80" rx="12"/>
+          <rect class="n zt" style="--d:1.94s" x="7347" y="1290" width="100" height="80" rx="12"/>
+          <path class="n gw" style="--d:1.99s" d="M7579 1307 L7602 1330 L7579 1353 L7556 1330Z"/>
+          <path class="n gw" style="--d:2.01s" d="M7669 1307 L7692 1330 L7669 1353 L7646 1330Z"/>
+          <rect class="n kt" style="--d:2.03s" x="7711" y="1290" width="100" height="80" rx="12"/>
+          <rect class="n zt" style="--d:2.07s" x="7893" y="1290" width="100" height="80" rx="12"/>
+          <rect class="n nc" style="--d:2.11s" x="8075" y="1410" width="100" height="80" rx="12"/>
+          <path class="plus" style="--d:2.11s" d="M8117 1470 h16 v16 h-16 Z M8125 1473 v10 M8120 1478 h10"/>
+          <path class="n gw" style="--d:2.12s" d="M8125 1307 L8148 1330 L8125 1353 L8102 1330Z"/>
+          <path class="n gw" style="--d:2.14s" d="M8215 1307 L8238 1330 L8215 1353 L8192 1330Z"/>
+          <rect class="n kt" style="--d:2.16s" x="8257" y="1290" width="100" height="80" rx="12"/>
+          <path class="n gw" style="--d:2.17s" d="M8307 1427 L8330 1450 L8307 1473 L8284 1450Z"/>
+          <path class="n gw" style="--d:2.2s" d="M8438 1547 L8461 1570 L8438 1593 L8415 1570Z"/>
+          <rect class="n zt" style="--d:2.2s" x="8439" y="1290" width="100" height="80" rx="12"/>
+          <circle class="n ev end" style="--d:2.21s" cx="8489" cy="1570" r="18"/>
+          <rect class="n nc" style="--d:2.25s" x="8621" y="1410" width="100" height="80" rx="12"/>
+          <path class="plus" style="--d:2.25s" d="M8663 1470 h16 v16 h-16 Z M8671 1473 v10 M8666 1478 h10"/>
+          <path class="n gw" style="--d:2.25s" d="M8671 1307 L8694 1330 L8671 1353 L8648 1330Z"/>
+          <path class="n gw" style="--d:2.25s" d="M8671 1547 L8694 1570 L8671 1593 L8648 1570Z"/>
+          <path class="n gw" style="--d:2.32s" d="M8943 1707 L8966 1730 L8943 1753 L8920 1730Z"/>
+          <rect class="n kt" style="--d:2.33s" x="8985" y="1690" width="100" height="80" rx="12"/>
+          <rect class="n zt" style="--d:2.38s" x="9167" y="1690" width="100" height="80" rx="12"/>
+          <rect class="n nc" style="--d:2.42s" x="9349" y="1810" width="100" height="80" rx="12"/>
+          <path class="plus" style="--d:2.42s" d="M9391 1870 h16 v16 h-16 Z M9399 1873 v10 M9394 1878 h10"/>
+          <path class="n gw" style="--d:2.43s" d="M9399 1707 L9422 1730 L9399 1753 L9376 1730Z"/>
+          <path class="n gw" style="--d:2.45s" d="M9489 1707 L9512 1730 L9489 1753 L9466 1730Z"/>
+          <rect class="n op" style="--d:2.47s" x="9531" y="1690" width="100" height="80" rx="12"/>
+          <path class="n gw" style="--d:2.47s" d="M9581 1827 L9604 1850 L9581 1873 L9558 1850Z"/>
+          <circle class="n ev end" style="--d:2.52s" cx="9763" cy="1850" r="18"/>
+          <circle class="n ev " style="--d:2.52s" cx="9763" cy="1730" r="18"/>
+          <circle class="n ev end" style="--d:2.56s" cx="9945" cy="1730" r="18"/>
+          <text class="t f " x="4148" y="1122" style="text-anchor:start">истекло: подготовить заново</text>
+          <text class="t f " x="4551" y="994" style="text-anchor:end">да</text>
+          <text class="t f " x="4516" y="948" style="text-anchor:start">нет</text>
+          <text class="t f ok" x="5062" y="948" style="text-anchor:start">годно</text>
+          <text class="t f " x="5040" y="892" style="text-anchor:start">мало данных</text>
+          <text class="t f bad" x="5040" y="986" style="text-anchor:start">не годно</text>
+          <text class="t f " x="5222" y="1162" style="text-anchor:start">ремонт участка шва ≤ 3 на участок</text>
+          <text class="t f " x="5222" y="1008" style="text-anchor:start">как есть по разрешению</text>
+          <text class="t f bad" x="5244" y="1068" style="text-anchor:start">списано</text>
+          <text class="t f " x="704" y="2206" style="text-anchor:start">переделка по ТП</text>
+          <text class="t f " x="682" y="2326" style="text-anchor:start">ремонт или как есть</text>
+          <text class="t f bad" x="682" y="2446" style="text-anchor:start">списать</text>
+          <text class="t f " x="682" y="2566" style="text-anchor:start">вернуть поставщику (только входной)</text>
+          <text class="t f " x="1090" y="2279" style="text-anchor:start">ремонт</text>
+          <text class="t f " x="1114" y="2326" style="text-anchor:start">как есть</text>
+        </g>
+        <g class="over rvo" data-on="0" data-until="0">
+          <text class="lane" x="1521" y="327" style="text-anchor:end">Склад и входной контроль</text>
+          <text class="lane" x="1521" y="386" style="text-anchor:end">Механический цех</text>
+          <text class="lane" x="1521" y="444" style="text-anchor:end">Сварочный цех</text>
+          <text class="lane" x="85" y="503" style="text-anchor:start">Сборочно-испытательный цех</text>
+          <text class="lane" x="85" y="562" style="text-anchor:start">ОТК и выпуск</text>
+          <text class="lane nc" x="289" y="646">подпроцесс «Брак» один — его вызывает любая точка решения</text>
+          <text class="lane here" x="539" y="386">инцидент — здесь</text>
+        </g>
+      </svg>
+      <div class="abs legend rv" data-on="0" data-until="0">
+        <span><i class="kt"></i><b>9</b> контрольных точек</span>
+        <span><i class="zt"></i><b>12</b> решений человека</span>
+        <span><i class="nc"></i><b>6</b> вызовов «Брака»</span>
+        <span class="all"><b>106</b> элементов · 5 цехов · редактор процесса — в самой системе</span>
+      </div>
+      <div class="abs zoomcap rv" data-on="1" data-until="1"><i class="sq zt"></i><b class="c-amber">Инцидент на ЗТ-3</b> — приёмка ОТК решает «не годно»<span class="gap"></span><i class="sq nc"></i><b class="c-rose">«Брак»</b> — подпроцесс: решение по изделию и действия с браком</div>
+      <div class="abs foot rv" data-on="1" data-until="1"><i class="sq zt"></i>Инцидент — один узел схемы. Сколько бы их ни было, все ведёт один процесс и один стандарт его описания</div>
+      <div class="abs zoomcap rv" data-on="2"><i class="sq nc"></i><b class="c-rose">Подпроцесс «Брак»</b> — «не годно» → изоляция → решение по изделию → переделка · как есть по разрешению · списание · возврат поставщику</div>
+      <div class="abs foot rv" data-on="2"><i class="sq nc"></i>Подпроцесс один на все цеха: его вызывает любая точка решения, каждый исход уходит в 1С</div>
+    </div>
+  </section>
+  <!-- BPMN:END -->
+
+  <!-- 4 · Дефект сразу после операции (один шаг) -->
+  <section class="slide" id="late" style="--c:var(--cyan)">
+    <div class="stage">
+      <div class="journey">Процесс в работе</div>
+      <h2 class="h">Прожог появился после сварки.<br />Узнать о нём на финальной сборке — <span class="c-rose">слишком поздно</span></h2>
+      <svg class="art" viewBox="0 0 1600 900">
+        <g class="scn scnA" data-build="conveyor" data-y="500" data-yd="690" data-yu="330" data-mode="A"></g>
+        <g class="scn scnB" data-build="conveyor" data-y="500" data-yd="690" data-yu="330" data-mode="B"></g>
+      </svg>
+      <div class="abs msg rv c-rose" data-on="0" data-until="0">Сегодня такой дефект может обнаружиться уже на финальной сборке</div>
+      <div class="abs msg rv c-cyan" data-on="1">Контроль сразу после операции: брак — в изолятор, <span class="c-amber">ушедшее дальше — под вопросом и на перепроверку</span></div>
+    </div>
+  </section>
+
+  <!-- Область риска: как платформа ограничивает масштаб проблемы — мост к стенду -->
+  <section class="slide" id="scope" style="--c:var(--amber)">
+    <div class="stage">
+      <div class="journey">Область риска</div>
+      <h2 class="h">Один дефект — <span class="c-amber">сколько изделий под подозрением?</span></h2>
+      <div class="abs lead">Пока не доказано, что изделие годно, ГЛАВНЫЙ не пускает его дальше по маршруту. Каждый новый факт из истории сужает круг</div>
+      <div class="abs steps3 stagger">
+        <div class="s3" style="--i:0"><b class="c-amber">34</b><strong>попали под ограничение</strong><span>всё, что изготовлено после последней проверенной точки</span></div>
+        <em style="--i:1">→</em>
+        <div class="s3" style="--i:2"><b class="c-sky">13</b><strong>из них — на том же оборудовании</strong><span>прошли через тот же сварочный источник, что и изделие с дефектом</span></div>
+        <em style="--i:3">→</em>
+        <div class="s3" style="--i:4"><b class="c-rose">6</b><strong>из них — после сбоя</strong><span>изготовлены после момента сбоя: остаются под ограничением, идут на перепроверку</span></div>
+      </div>
+      <div class="abs glass freed stagger"><div class="in" style="--i:6"><b>28</b><span>остальные возвращены в работу — по фактам, а не на глаз<small>как это выглядит — покажем на стенде</small></span></div></div>
+    </div>
+  </section>
+
+  <!-- Демонстрация: здесь включаем стенд -->
+  <section class="slide" id="demo">
+    <div class="stage">
+      <div class="blob" style="left:-140px;top:160px;width:560px;height:560px;background:rgba(34,211,238,.10)"></div>
+      <div class="abs big">Демонстрация</div>
+      <div class="abs sub">ГЛАВНОГО</div>
+      <div class="abs go noexp"><a class="btn primary" href="https://main.coopenomics.world/" target="_blank" rel="noopener">Открыть стенд ↗</a></div>
+      <div class="abs trio stagger">
+        <svg style="--i:1" viewBox="-105 -105 210 210" class="c-mint" aria-hidden="true"><g class="fl seam-free"><use href="#fl" x="-90" y="-90" width="180" height="180" /></g></svg>
+        <svg style="--i:2" viewBox="-105 -105 210 210" class="c-amber un" aria-hidden="true"><g class="fl seam-hold"><use href="#fl" x="-90" y="-90" width="180" height="180" /></g><path class="frame" d="M-100 -70V-100H-70M70 -100H100V-70M100 70V100H70M-70 100H-100V70" /><text y="22" text-anchor="middle" font-size="64" font-weight="600" fill="currentColor">?</text></svg>
+        <svg style="--i:3" viewBox="-105 -105 210 210" class="c-rose" aria-hidden="true"><g class="fl seam-bad"><use href="#fl" x="-90" y="-90" width="180" height="180" /></g><circle class="burn pulse" cx="24.5" cy="-24.5" r="9" /><circle class="halo" cx="24.5" cy="-24.5" r="16" /><path class="frame" d="M-100 -70V-100H-70M70 -100H100V-70M100 70V100H70M-70 100H-100V70" /><line class="scanl" x1="-100" x2="100" y1="0" y2="0" /></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Итог: ценность для производства -->
+  <section class="slide" id="value">
+    <div class="stage">
+      <div class="blob" style="right:-120px;top:80px;width:560px;height:560px;background:rgba(34,211,238,.09)"></div>
+      <div class="journey" style="--c:var(--sky)">Итог</div>
+      <div class="abs three stagger"><div style="--i:0">Не пропустить опасное</div><div style="--i:2">Не держать лишнее</div><div style="--i:4">Не повторить ошибку</div></div>
+    </div>
+  </section>
+
+  <!-- Финал -->
+  <section class="slide" id="final">
+    <div class="stage">
+      <div class="blob" style="left:-120px;top:120px;width:560px;height:560px;background:rgba(34,211,238,.10)"></div>
+      <div class="blob" style="right:-140px;top:260px;width:520px;height:520px;background:rgba(251,113,133,.09)"></div>
+      <div class="abs thanks stagger">
+        <div class="t1" style="--i:0">Спасибо за внимание</div>
+        <div class="t2" style="--i:1">к ГЛАВНОМУ</div>
+      </div>
+      <div class="abs kb stagger"><div class="in" style="--i:3"><img class="float" src="./kb-poehali.png" alt="" width="320" height="320" /><div><b>КБ «Поехали»</b><span>КосмоХакатон 2026</span></div></div></div>
+      <div class="abs qr"><svg viewBox="-1 -1 31 31" aria-label="QR: main.coopenomics.world"><path id="qr" fill="#05070d" /></svg>main.coopenomics.world</div>
+      <div class="abs acts noexp">
+        <button class="btn sm" data-act="pdf">Скачать PDF</button>
+        <a class="btn sm" href="https://main.coopenomics.world/" target="_blank" rel="noopener">Открыть стенд ↗</a>
+        <button class="btn sm" data-act="map">Карта слайдов</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="overlay" id="map"><div class="glass box"></div></div>
+
+<script src="./landing.js?v=41" defer></script>
+</body>
+</html>
